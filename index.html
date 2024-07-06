@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <section>
+        <h1>Scroll Down</h1>
+    </section>
+    <section>
+        <p class="text" data-bg-color="#cccccc" data-fg-color="teal">Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+    </section>
+    <section>
+        <p class="text" data-bg-color="#b6b600" data-fg-color="black">Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+    </section>
+    <section>
+        <p class="text" data-bg-color="#353535" data-fg-color="red">Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+    </section>
+    <section>
+        <p class="text" data-bg-color="#cccccc" data-fg-color="#4cb006">Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+    </section>
+    <section></section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/split-type"></script>
+    <script src="https://unpkg.com/lenis@1.1.5/dist/lenis.min.js"></script> 
+
+    <script>
+        
+        gsap.registerPlugin(ScrollTrigger)
+        
+        const splitTypes=document.querySelectorAll('.text')
+
+        splitTypes.forEach((char,i)=>{
+
+            const bg=char.dataset.bgColor
+            const fg=char.dataset.fgColor
+
+            const text=new SplitType(char,{types:'chars'})
+        
+            gsap.fromTo(text.chars,
+              {
+                // color:bg,
+                scaleY:0,
+                y:-20,
+                transformOrigin:'top',
+                },
+              {
+                scaleY:1,
+                y:0,
+                // color:fg,
+                duration:0.3,
+                stagger:0.02,
+                scrollTrigger:{
+                    trigger:char,
+                    start:'top 60%',
+                    end:'top 20%',
+                    scrub:true,
+                    // scrub:false,
+                    // toggeleAction:'play play reverse reverse',
+                }
+              })
+            })
+
+
+        const lenis=new Lenis()
+
+        lenis.on('scroll',(e)=>{
+            console.log(e)
+        })
+        function raf(time){
+            lenis.raf(time)
+            requestAnimationFrame(raf)
+        }
+        requestAnimationFrame(raf)
+    </script>
+
+</body>
+</html>
